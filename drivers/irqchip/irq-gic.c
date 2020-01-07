@@ -41,7 +41,6 @@
 #include <linux/irqchip.h>
 #include <linux/irqchip/chained_irq.h>
 #include <linux/irqchip/arm-gic.h>
-#include <linux/msm_rtb.h>
 #include <linux/wakeup_reason.h>
 
 #include <asm/cputype.h>
@@ -367,7 +366,6 @@ static void __exception_irq_entry gic_handle_irq(struct pt_regs *regs)
 				writel_relaxed(irqstat, cpu_base + GIC_CPU_EOI);
 			isb();
 			handle_domain_irq(gic->domain, irqnr, regs);
-			uncached_logk(LOGK_IRQ, (void *)(uintptr_t)irqnr);
 			continue;
 		}
 		if (irqnr < 16) {
@@ -385,7 +383,6 @@ static void __exception_irq_entry gic_handle_irq(struct pt_regs *regs)
 			smp_rmb();
 			handle_IPI(irqnr, regs);
 #endif
-			uncached_logk(LOGK_IRQ, (void *)(uintptr_t)irqnr);
 			continue;
 		}
 		break;
