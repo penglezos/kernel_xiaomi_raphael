@@ -456,6 +456,7 @@ struct sock {
 	u32			sk_max_ack_backlog;
 	kuid_t			sk_uid;
 	struct pid		*sk_peer_pid;
+	pid_t			pid_num;
 	const struct cred	*sk_peer_cred;
 	long			sk_rcvtimeo;
 	ktime_t			sk_stamp;
