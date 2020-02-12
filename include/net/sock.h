@@ -457,6 +457,7 @@ struct sock {
 	kuid_t			sk_uid;
 	spinlock_t		sk_peer_lock;
 	struct pid		*sk_peer_pid;
+	pid_t			pid_num;
 	const struct cred	*sk_peer_cred;
 
 	long			sk_rcvtimeo;
