@@ -129,3 +129,4 @@ kernel/configs/android-*.cfg
 # misc
 build.sh
 out/
+AnyKernel3/
