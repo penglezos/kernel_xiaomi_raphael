@@ -113,7 +113,7 @@ static void __maybe_unused cnss_utils_start_avtimer(void)
 }
 EXPORT_SYMBOL(cnss_utils_start_avtimer);
 
-static void cnss_utils_stop_avtimer(void)
+static void __maybe_unused cnss_utils_stop_avtimer(void)
 {
 	pr_err("AV Timer is not supported\n");
 }
