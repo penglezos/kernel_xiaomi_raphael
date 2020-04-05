@@ -4065,7 +4065,7 @@ retry_cpuset:
 			atomic_inc(&pgdat->kswapd_waiters);
 			woke_kswapd = true;
 		}
-		wake_all_kswapds(order, ac);
+		wake_all_kswapds(order, gfp_mask, ac);
 	}
 
 	/*
