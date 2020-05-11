@@ -3543,7 +3543,7 @@ static int macsec_newlink(struct net *net, struct net_device *dev,
 	struct net_device *real_dev;
 	struct macsec_context ctx;
 	const struct macsec_ops *ops;
-	int err;
+	int err, mtu;
 	sci_t sci;
 
 	if (!tb[IFLA_LINK])
