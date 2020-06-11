@@ -235,6 +235,7 @@ struct dsi_panel {
 
 	bool doze_enabled;
 	enum dsi_doze_mode_type doze_mode;
+ 	bool resend_ea;
 
 	int hbm_mode;
 
