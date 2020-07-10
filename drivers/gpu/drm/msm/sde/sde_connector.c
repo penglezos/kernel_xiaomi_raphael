@@ -739,9 +739,6 @@ int sde_connector_update_hbm(struct sde_connector *c_conn)
 					rc = dsi_display_write_panel(dsi_display, &dsi_display->panel->cur_mode->priv_info->cmd_sets[DSI_CMD_SET_DISP_HBM_FOD_OFF]);
 				}
 
-				/* reset backlight level */
-				dsi_panel_set_backlight(dsi_display->panel, dsi_display->panel->last_bl_lvl);
-
 				dsi_display->panel->skip_dimmingon = STATE_DIM_RESTORE;
 				dsi_display->panel->hbm_enabled = false;
 				dsi_display->panel->fod_dimlayer_hbm_enabled = false;
@@ -777,6 +774,12 @@ int sde_connector_update_hbm(struct sde_connector *c_conn)
 				pr_debug("HBM fod on\n");
 				sysfs_notify(&dsi_display->drm_conn->kdev->kobj, NULL, "dimlayer_hbm_enabled");
 				pr_debug("notify hbm on to displayfeature\n");
+			}
+
+			if (dsi_display->panel->dc_enable) {
+				dsi_display->panel->dc_enable = false;
+				pr_debug("fod set CRC OFF\n");
+				dsi_display_write_panel(dsi_display, &dsi_display->panel->cur_mode->priv_info->cmd_sets[DSI_CMD_SET_DISP_CRC_OFF]);
 			}
 
 			/* force disable CRC */
@@ -927,8 +930,8 @@ void sde_connector_helper_bridge_enable(struct drm_connector *connector)
 		c_conn->bl_device->props.state &= ~BL_CORE_FBBLANK;
 		backlight_update_status(c_conn->bl_device);
 	}
-	c_conn->panel_dead = false;
 	display->is_first_boot = false;
+	c_conn->panel_dead = false;
 }
 
 int sde_connector_clk_ctrl(struct drm_connector *connector, bool enable)
@@ -2515,7 +2518,7 @@ struct drm_connector *sde_connector_init(struct drm_device *dev,
 				sizeof(dsi_display->panel->hdr_props),
 				CONNECTOR_PROP_HDR_INFO);
 		}
-
+		
 		/* register esd irq and enable it after panel enabled */
 		if (dsi_display && dsi_display->panel &&
 			dsi_display->panel->esd_config.esd_err_irq_gpio > 0) {
