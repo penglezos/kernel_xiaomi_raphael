@@ -1,0 +1,14 @@
+{
+  "kernel": {
+    "name": "Englezos Kernel",
+    "version": "0.7",
+    "link": "https://github.com/penglezos/kernel_xiaomi_raphael/releases/download/0.7/Englezos-raphael-0.7.zip",
+    "changelog_url": "https://raw.githubusercontent.com/penglezos/kernel_xiaomi_raphael/master/fkm/changelog",
+    "date": "2020-07-14",
+    "sha1": "5dac07090e4c4d56b850af3b897239c0dd1fb38d"
+  },
+  "support": {
+    "link": "https://forum.xda-developers.com/k20-pro/development/kernel-englezos-kernel-t4078387"
+  }
+}
+
