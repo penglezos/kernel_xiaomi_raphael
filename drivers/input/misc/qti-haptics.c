@@ -294,7 +294,7 @@ static int qti_haptics_write(struct qti_hap_chip *chip,
 
 			if (rc < 0)
 				dev_err(chip->dev, "write addr 0x%x failed, rc=%d\n",
-						addr, rc);
+					addr, rc);
 	}
 
 	for (i = 0; i < len; i++)
