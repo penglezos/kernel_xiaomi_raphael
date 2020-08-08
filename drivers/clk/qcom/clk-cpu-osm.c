@@ -662,7 +662,7 @@ static int osm_cpufreq_cpu_init(struct cpufreq_policy *policy)
 	struct clk_osm *c, *parent;
 	struct clk_hw *p_hw;
 	int ret, of_len;
-	unsigned int i, cpu;
+	unsigned int i;
 	u32 *of_table = NULL;
 	char tbl_name[] = "qcom,cpufreq-table-##";
 
