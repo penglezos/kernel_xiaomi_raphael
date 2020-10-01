@@ -6314,7 +6314,6 @@ int dsi_display_get_modes(struct dsi_display *display,
 			  struct dsi_display_mode **out_modes)
 {
 	struct dsi_dfps_capabilities dfps_caps;
-	struct dsi_display_ctrl *ctrl;
 	struct dsi_host_common_cfg *host = &display->panel->host_config;
 	bool is_split_link;
 	u32 num_dfps_rates, panel_mode_count, total_mode_count;
@@ -6328,7 +6327,6 @@ int dsi_display_get_modes(struct dsi_display *display,
 	}
 
 	*out_modes = NULL;
-	ctrl = &display->ctrl[0];
 
 	mutex_lock(&display->display_lock);
 
@@ -6362,7 +6360,6 @@ int dsi_display_get_modes(struct dsi_display *display,
 	for (mode_idx = 0; mode_idx < panel_mode_count; mode_idx++) {
 		struct dsi_display_mode panel_mode;
 		int topology_override = NO_OVERRIDE;
-		u32 frame_threshold_us = ctrl->ctrl->frame_threshold_time_us;
 
 		if (display->cmdline_timing == mode_idx)
 			topology_override = display->cmdline_topology;
