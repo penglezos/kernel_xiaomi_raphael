@@ -2787,6 +2787,9 @@ static int dsi_panel_parse_phy_timing(struct dsi_display_mode *mode,
 	u32 len, i;
 	int rc = 0;
 	struct dsi_display_mode_priv_info *priv_info;
+	u64 h_period, v_period;
+	u64 refresh_rate = TICKS_IN_MICRO_SECOND;
+	struct dsi_mode_info *timing = NULL;
 	u64 pixel_clk_khz;
 
 	if (!mode || !mode->priv_info)
@@ -2810,18 +2813,21 @@ static int dsi_panel_parse_phy_timing(struct dsi_display_mode *mode,
 		priv_info->phy_timing_len = len;
 	};
 
-	if (panel_mode == DSI_OP_VIDEO_MODE) {
-		/*
-		 *  For command mode we update the pclk as part of
-		 *  function dsi_panel_calc_dsi_transfer_time( )
-		 *  as we set it based on dsi clock or mdp transfer time.
-		 */
-		pixel_clk_khz = (DSI_H_TOTAL_DSC(&mode->timing) *
-				DSI_V_TOTAL(&mode->timing) *
-				mode->timing.refresh_rate);
-		do_div(pixel_clk_khz, 1000);
-		mode->pixel_clk_khz = pixel_clk_khz;
+	timing = &mode->timing;
+
+	if (panel_mode == DSI_OP_CMD_MODE) {
+		h_period = DSI_H_ACTIVE_DSC(timing);
+		v_period = timing->v_active;
+		do_div(refresh_rate, priv_info->mdp_transfer_time_us);
+	} else {
+		h_period = DSI_H_TOTAL_DSC(timing);
+		v_period = DSI_V_TOTAL(timing);
+		refresh_rate = timing->refresh_rate;
 	}
+
+	pixel_clk_khz = h_period * v_period * refresh_rate;
+	do_div(pixel_clk_khz, 1000);
+	mode->pixel_clk_khz = pixel_clk_khz;
 
 	return rc;
 }
